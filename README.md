@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skymind
 
-## Getting Started
+Weather app built with Next.js, DaisyUI, and [Open-Meteo](https://open-meteo.com). Production-ready with tests, validation, and error handling.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run test:run` | Run tests |
+| `npm run test:coverage` | Tests with coverage |
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- Debounced city search with keyboard nav
+- **Use my location** (geolocation + reverse geocode)
+- °C / °F unit toggle (persisted)
+- **Theme toggle** (light/dark, persisted)
+- Current weather + **24h hourly** + 7-day forecast
+- **UV index**, sunrise/sunset, **air quality** (US AQI when available)
+- **Favorites** (localStorage) | **Share link** (copy URL)
+- **Offline** — cached last result when disconnected
+- **PWA-ready** — add to home screen on mobile
+- Error boundaries & 404 | 47 tests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [`docs/`](./docs/README.md) for architecture, API, deployment, testing, and errors.
