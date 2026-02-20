@@ -1,28 +1,30 @@
 # API Integration
 
-## Open-Meteo
+## Endpoints
 
-- **Geocoding**: `https://geocoding-api.open-meteo.com/v1/search` — city search by name
-- **Forecast**: `https://api.open-meteo.com/v1/forecast` — weather by lat/lon
-- **URLs**: Centralized in `lib/constants.ts` as `API.GEOCODING`, `API.FORECAST`
-- **Auth**: None required (non-commercial)
-- **Limits**: 10k/day, 5k/hour
+| Service | URL | Purpose |
+|---------|-----|---------|
+| Geocoding | `geocoding-api.open-meteo.com/v1/search` | City search |
+| Forecast | `api.open-meteo.com/v1/forecast` | Weather |
+| Air Quality | `air-quality.api.open-meteo.com/v1/air-quality` | US AQI |
+| Nominatim | `nominatim.openstreetmap.org/reverse` | Reverse geocode |
+
+All in `lib/constants.ts`. No auth.
+
+## Proxy Routes (Next.js)
+
+- **`/api/reverse-geocode`** — Nominatim (CORS). Params: `lat`, `lon`, optional `lang`. Uses `accept-language` when `lang` omitted.
+- **`/api/air-quality`** — Air quality (avoids client DNS). Params: `latitude`, `longitude`.
 
 ## Data Flow
 
-1. User types city (debounced 300ms) → `searchLocations(query)` → Geocoding API → location results
-2. User selects location → `fetchWeather(lat, lon, timezone)` → Forecast API → current + 7-day
-
-## Key Params
-
-| Endpoint | Params |
-|----------|--------|
-| Geocoding | `name`, `count` |
-| Forecast | `latitude`, `longitude`, `timezone`, `current`, `hourly`, `daily`, `forecast_days`, `temperature_unit`, `wind_speed_unit` |
+1. **Search**: `searchLocations(query)` → Geocoding API (client)
+2. **Select**: `fetchWeather(lat, lon, tz, unit)` → Forecast API (client)
+3. **Location**: `reverseGeocode(lat, lon, lang)` → `/api/reverse-geocode` → Nominatim
+4. **Air**: `fetchAirQuality(lat, lon)` → `/api/air-quality` → Open-Meteo
 
 ## Utils
 
-- **weather-codes.ts**: `getWeatherCodeInfo(code)` → label + icon; `getWindDirection(degrees)` → cardinal (N, NE, ...)
-- **temperature.ts**: `convertTemp(celsius, unit)`, `formatTemp(celsius, unit)` — °C / °F conversion
-- **reverseGeocode**: Nominatim (OpenStreetMap) — lat/lon → city name for geolocation
-- **fetchAirQuality**: Open-Meteo Air Quality API — US AQI by lat/lon
+- `weather-codes.ts`: `getWeatherCodeInfo(code)` → label
+- `WeatherIcon`: Lucide icons per WMO code
+- `validation.ts`: search query, coordinates, timezone

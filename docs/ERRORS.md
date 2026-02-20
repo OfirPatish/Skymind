@@ -2,26 +2,19 @@
 
 ## Custom Errors
 
-- **WeatherApiError**: Thrown by API layer; includes optional `status` and `reason`
-- **getErrorMessage(err)**: Safe extraction of user-facing message from any error
+- **WeatherApiError**: API layer; optional `status`, `reason`
+- **getErrorMessage(err)**: Safe user-facing message
 
 ## Validation
 
-| Utility | Validates |
-|---------|-----------|
-| `validateSearchQuery` | 2–100 chars, non-empty |
-| `validateCoordinates` | lat ∈ [-90,90], lon ∈ [-180,180] |
-| `validateTimezone` | Non-empty string |
+`validateSearchQuery` (2–100 chars) | `validateCoordinates` (lat/lon) | `validateTimezone` (non-empty)
 
-## Error Boundaries
+## Boundaries
 
-- **error.tsx**: Page-level; catch + reset
-- **global-error.tsx**: Root fallback (plain HTML)
-- **not-found.tsx**: 404 with link home
+- **error.tsx**: Page-level, try again + home
+- **global-error.tsx**: Root fallback
+- **not-found.tsx**: 404 + link home
 
-## API Error Flow
+## Flow
 
-1. Invalid params → `WeatherApiError` before fetch
-2. HTTP 4xx/5xx or `{ error: true }` body → `WeatherApiError` with reason
-3. Network failure → `WeatherApiError` with connection message
-4. Page catches → displays via `getErrorMessage(err)`
+Invalid params → `WeatherApiError` before fetch. HTTP/network failure → catch → `getErrorMessage` → display.

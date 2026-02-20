@@ -2,34 +2,22 @@
 
 ## Setup
 
-- **Vitest** – test runner (`vitest.config.ts`)
-- **React Testing Library** – component tests
-- **@testing-library/user-event** – user interactions
-- **@testing-library/jest-dom** – DOM matchers
-- **jsdom** – DOM environment
-- **`src/test/setup.ts`** – imports jest-dom
+Vitest, React Testing Library, user-event, jest-dom. Config: `vitest.config.ts`, setup: `src/test/setup.ts`.
 
 ## Commands
 
-```bash
-npm run test           # watch mode
-npm run test:run       # single run
-npm run test:coverage   # with coverage
-```
+`npm run test` (watch) | `npm run test:run` | `npm run test:coverage`
 
-## Structure
+## Coverage (53 tests)
 
-| Path | Coverage |
-|------|----------|
-| `tests/lib/utils/*.test.ts` | Validation, weather codes |
-| `tests/lib/api/*.test.ts` | API functions (mocked fetch) |
-| `tests/lib/errors.test.ts` | Error utilities |
-| `tests/components/weather/*.test.tsx` | SearchBar, WeatherCard, ForecastSection |
-| `tests/app/page.test.tsx` | Home page |
+| Path | Tests |
+|------|-------|
+| `tests/lib/` | errors, validation, weather-codes, api/weather |
+| `tests/components/weather/` | SearchBar, WeatherCard, ForecastSection |
+| `tests/app/` | page, not-found |
 
 ## Patterns
 
-- **API tests**: Mock `fetch` with `vi.stubGlobal("fetch", vi.fn())`
-- **Component tests**: Mock `@/lib/api/weather`; pass `debounceMs={0}` to SearchBar for instant search in tests
-- **Page tests**: Mock both API and child components
-- **userEvent**: Use `userEvent.setup()` before interactions
+- API: `vi.stubGlobal("fetch", vi.fn())`
+- Components: Mock `@/lib/api/weather`; `debounceMs={0}` for SearchBar
+- Page: Mock API + child components
